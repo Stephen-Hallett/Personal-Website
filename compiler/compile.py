@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from description_generator import DescriptionGenerator
 from github import Auth, Github
 from pydantic import BaseModel
 
@@ -33,6 +34,8 @@ tags: {str(identifier.tags).replace("'", '"')}
 auth = Auth.Token(os.environ["GITHUB_TOKEN"])
 g = Github(auth=auth)
 
+description_generator = DescriptionGenerator(os.environ["OPENAI_API_KEY"])
+
 identifier_block = {}
 
 filename_pattern = r"(?i)\((?!https?:|//)([^)]+\.(?:jpg|png|webp|jpeg|svg|hevc|gif))\)"
@@ -50,6 +53,9 @@ for repo in g.get_user().get_repos():
 
             identifier_block = Identifier(
                 title=repo.name,
+                description=description_generator.generate(readme_contents)
+                if len(readme_contents.strip())
+                else "",
                 pubDate=repo.created_at.strftime("%b %d %Y"),
                 updatedDate=repo.updated_at.strftime("%b %d %Y"),
                 tags=list(repo.get_languages().keys()),

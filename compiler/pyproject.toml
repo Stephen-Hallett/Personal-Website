@@ -5,6 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "description-generator",
     "pydantic>=2.11.3",
     "pygithub>=2.6.1",
 ]
+
+[tool.uv.sources]
+description-generator = { git = "https://github.com/Stephen-Hallett/Repo-Description-Generator.git" }

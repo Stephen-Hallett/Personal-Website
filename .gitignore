@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # VSCode
 .vscode
+
+# Projects
+src/contents/projects/*.md
