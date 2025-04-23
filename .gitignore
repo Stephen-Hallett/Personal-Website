@@ -24,5 +24,8 @@ pnpm-debug.log*
 # VSCode
 .vscode
 
+# virtual environments
+.venv
+
 # Projects
 src/contents/projects/*.md
