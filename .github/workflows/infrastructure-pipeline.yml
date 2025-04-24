@@ -14,7 +14,7 @@ on:
     paths:
       - "infra/**"
       - ".github/workflows/infra**"
-  
+
   workflow_dispatch:
 
 permissions:
@@ -70,7 +70,7 @@ jobs:
           terraform -chdir=${{ env.TF_CONFIG_DIR }} plan \
             -out=deployment.tfplan \
             -input=false \
-            -var-file dev.tfvars \
+            -var-file terraform.tfvars \
             -var env=dev \
             -var project_id=${{env.PROJECT_ID}} \
             -var client_id=$ARM_CLIENT_ID \
