@@ -26,8 +26,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_build_command: "cd app && yarn install --frozen-lockfile && yarn build"
           app_location: "/app"
+          api_location: ""
           output_location: "dist"
 
   close_pull_request_job:
