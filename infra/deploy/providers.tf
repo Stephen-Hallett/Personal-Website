@@ -21,7 +21,7 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
-    storage_account_name = "stterraformdeveau004"
+    storage_account_name = "stterraformeadev001"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
