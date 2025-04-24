@@ -29,3 +29,6 @@ pnpm-debug.log*
 
 # Projects
 src/contents/projects/*.md
+
+# Infra creds
+creds.json

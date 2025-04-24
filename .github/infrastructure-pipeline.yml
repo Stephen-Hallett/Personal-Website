@@ -1,0 +1,84 @@
+name: "Infrastructure Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "infra/**"
+      - ".github/workflows/infra**"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "infra/**"
+      - ".github/workflows/infra**"
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: 1.6.3
+  TF_CONFIG_DIR: "infra/deploy"
+  PROJECT_ID: website
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: "Login via Azure cli"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Prepare ARM  Environment Variables
+        run: |
+          echo "ARM_CLIENT_ID=$( jq -r '.clientId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_CLIENT_SECRET=$( jq -r '.clientSecret' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_SUBSCRIPTION_ID=$( jq -r '.subscriptionId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_TENANT_ID=$( jq -r '.tenantId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_ACCESS_KEY=$( jq -r '.accessKey' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform init
+        run: terraform -chdir=${{ env.TF_CONFIG_DIR }} init
+
+      - name: Terraform Workspace
+        run: terraform -chdir=${{ env.TF_CONFIG_DIR }} workspace select -or-create dev${{env.PROJECT_ID}}
+
+      - name: Terraform validate
+        run: terraform -chdir=${{ env.TF_CONFIG_DIR }} fmt
+
+      - name: Terraform plan
+        run: |
+          terraform -chdir=${{ env.TF_CONFIG_DIR }} plan \
+            -out=deployment.tfplan \
+            -input=false \
+            -var-file dev.tfvars \
+            -var env=dev \
+            -var project_id=${{env.PROJECT_ID}} \
+            -var client_id=$ARM_CLIENT_ID \
+            -var client_secret=$ARM_CLIENT_SECRET \
+            -var subscription_id=$ARM_SUBSCRIPTION_ID \
+            -var tenant_id=$ARM_TENANT_ID
+
+      - name: Terraform apply
+        if: github.event_name == 'push' && success()
+        run: |
+          terraform -chdir=${{ env.TF_CONFIG_DIR }} apply \
+            -auto-approve \
+            -input=false deployment.tfplan
