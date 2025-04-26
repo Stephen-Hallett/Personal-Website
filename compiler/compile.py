@@ -32,7 +32,7 @@ tags: {str(identifier.tags).replace("'", '"')}
 
 
 # using an access token
-auth = Auth.Token(os.environ.get("GITHUB_TOKEN", sys.argv[1]))
+auth = Auth.Token(os.environ.get("PYGITHUB_TOKEN", sys.argv[1]))
 g = Github(auth=auth)
 
 description_generator = DescriptionGenerator(
