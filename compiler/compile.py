@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from pathlib import Path
 
 from description_generator import DescriptionGenerator
@@ -31,10 +32,12 @@ tags: {str(identifier.tags).replace("'", '"')}
 
 
 # using an access token
-auth = Auth.Token(os.environ["GITHUB_TOKEN"])
+auth = Auth.Token(os.environ.get("GITHUB_TOKEN", sys.argv[1]))
 g = Github(auth=auth)
 
-description_generator = DescriptionGenerator(os.environ["OPENAI_API_KEY"])
+description_generator = DescriptionGenerator(
+    os.environ.get("OPENAI_API_KEY", sys.argv[2])
+)
 
 identifier_block = {}
 
@@ -68,6 +71,7 @@ for repo in g.get_user().get_repos():
             project_root = Path(__file__).resolve().parent.parent
             target_path = (
                 project_root
+                / "app"
                 / "src"
                 / "content"
                 / "projects"
