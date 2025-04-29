@@ -8,6 +8,7 @@ dependencies = [
     "description-generator",
     "pydantic>=2.11.3",
     "pygithub>=2.6.1",
+    "pytz>=2025.2",
 ]
 
 [tool.uv.sources]
