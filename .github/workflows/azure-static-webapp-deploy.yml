@@ -8,6 +8,8 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
+  schedule:
+    - cron: "12 10 * * *"
   workflow_dispatch:
 
 jobs:
