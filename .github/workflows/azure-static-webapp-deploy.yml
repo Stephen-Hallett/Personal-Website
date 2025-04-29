@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add compile/readme.db
+          git add .
           git commit -m "build: Update readme.db with latest description data" || echo "No changes to commit"
           git push
 
