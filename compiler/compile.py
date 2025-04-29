@@ -77,6 +77,7 @@ for repo in g.get_user().get_repos():
                 / "projects"
                 / f"{identifier_block.title}.md"
             )
+            target_path.parent.mkdir(parents=True, exist_ok=True)
             with Path(target_path).open("w") as f:
                 f.write(identified)
         except Exception as e:
