@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "description-generator",
+    "polars>=1.28.1",
     "pydantic>=2.11.3",
     "pygithub>=2.6.1",
     "pytz>=2025.2",
