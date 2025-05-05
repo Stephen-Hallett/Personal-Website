@@ -62,8 +62,10 @@ def add_identifier(readme: str, identifier: Identifier) -> str:
 title: "{identifier.title}"
 description: "{identifier.description}"
 pubDate: "{identifier.pubDate}"
+updatedDate: "{identifier.updatedDate}"
 heroImage: "{identifier.heroImage}"
 tags: {str(identifier.tags).replace("'", '"')}
+{'badge: "' + identifier.badge + '"' if identifier.badge is not None else '""'}
 ---
 
 """
@@ -102,6 +104,17 @@ def get_readme_date(readme: ContentFile.ContentFile, repo: Repository) -> dateti
     readme_path = readme.path
     commits = repo.get_commits(path=readme_path)
     return commits[0].commit.author.date
+
+
+def get_update_badge(updated_at: datetime) -> str:
+    days = (datetime.now(tz=pytz.timezone("UTC")) - updated_at).days
+    if days == 0:
+        return "Updated today"
+    if days == 1:
+        return "Updated yesterday"
+    if days < 8:
+        return f"Updated {days} days ago"
+    return ""
 
 
 # --- Main ---
@@ -159,12 +172,13 @@ def main() -> None:
                 identifier_block = Identifier(
                     title=repo.name,
                     description=description,
-                    pubDate=repo.created_at.strftime("%b %d %Y"),
-                    updatedDate=repo.updated_at.strftime("%b %d %Y"),
+                    pubDate=repo.created_at.strftime("%b %d %Y %H:%M"),
+                    updatedDate=repo.updated_at.strftime("%b %d %Y %H:%M"),
                     tags=list(repo.get_languages().keys()),
                     heroImage=f"https://github.com/Stephen-Hallett/{repo.name}/raw/{repo.default_branch}/{all_files[0]}"
                     if all_files
                     else "/post_img.webp",
+                    badge=get_update_badge(repo.updated_at),
                 )
                 identified = add_identifier(readme_contents, identifier_block)
 
