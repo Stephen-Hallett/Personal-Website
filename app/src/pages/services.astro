@@ -5,36 +5,29 @@ import HorizontalCard from "../components/HorizontalCard.astro";
 
 <BaseLayout title="Projects" sideBarActiveItemID="services">
   <div>
-    <div class="text-3xl w-full font-bold mb-5">Services Header</div>
+    <div class="text-3xl w-full font-bold mb-5">Services</div>
   </div>
 
   <HorizontalCard
-    title="Service 1"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    badge="NEW"
-    url="#"
+    title="ShoppingList"
+    img="/services/shoppinglist.webp"
+    desc="Website to create and share shopping lists with whoever you need"
+    badge=""
+    url="https://shoppinglist.stephenhallett.nz"
   />
   <div class="divider my-0"></div>
   <HorizontalCard
-    title="Service 2"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
+    title="Streamlit Generator"
+    img="/services/streamlit_generator.webp"
+    desc="Service to recursively generate streamlit code based off of a draw.io wireframe."
+    url="https://st-generator.streamlit.app/"
   />
   <div class="divider my-0"></div>
   <HorizontalCard
-    title="Service 3"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
-    badge="NEW"
-  />
-  <div class="divider my-0"></div>
-  <HorizontalCard
-    title="Service 4"
-    img="/post_img.webp"
-    desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    url="#"
+    title="UoA Course Sentiment Analysis"
+    img="/services/sentiment_analysis.webp"
+    desc="A project I did in 2023 which estimates and compares the student sentiment towards different papers at the University of Auckland based on the messages referencing them on the University of Auckland SubReddit. All stats on the page are based on data up to March 2023."
+    url="https://shallett.shinyapps.io/uoa_sentiment/"
+    badge=""
   />
 </BaseLayout>
