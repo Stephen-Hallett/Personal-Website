@@ -1,5 +1,7 @@
 # Personal Portfolio
 
+### Hosted at [stephenhallett.nz](https://stephenhallett.nz)
+
 An Astro website which showcases all of my public projects, running services & my CV. This repository contains an astro website pulled from an astro [template](https://astro.build/themes/details/astrofy-personal-porfolio-website-template/) which has been modified for my requirements, and a compiler script which compiles the majority of the websites 'project' tab content based off of my public github repositories.
 
 ## Compiler
